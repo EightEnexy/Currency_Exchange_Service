@@ -2,11 +2,11 @@ package com.example.currency_exchange.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 
 @Entity
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExchangeRate {
 
-    public ExchangeRate(String baseCurrency, String targetCurrency, Double rate) {
+    public ExchangeRate(String baseCurrency, String targetCurrency, BigDecimal rate) {
         this.baseCurrency = baseCurrency;
         this.targetCurrency = targetCurrency;
         this.rate = rate;
@@ -25,13 +25,11 @@ public class ExchangeRate {
     @JsonIgnore
     private Long id;
     @Column(nullable = false)
-    @NotBlank(message = "Base currency must not be blank")
     private String baseCurrency;
 
     @Column(nullable = false)
-    @NotBlank(message = "Target currency must not be blank")
     private String targetCurrency;
-    @Column(nullable = false)
-    @NotNull
-    private Double rate;
+
+    @Column(nullable = false, precision = 19, scale = 6)
+    private BigDecimal rate;
 }
