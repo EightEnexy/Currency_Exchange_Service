@@ -1,0 +1,82 @@
+Currency Exchange Service Examples
+==================================
+
+1. Get All Exchange Rates
+-------------------------
+- Method: GET
+- URL: http://localhost:8080/api/rates
+- Description: Retrieves a list of all available exchange rates.
+
+- Example Response:
+  [
+    {
+      "baseCurrency": "USD",
+      "targetCurrency": "EUR",
+      "rate": 0.923500
+    },
+    {
+      "baseCurrency": "EUR",
+      "targetCurrency": "USD",
+      "rate": 1.082600
+    },
+    ...
+  ]
+
+2. Convert Currency
+-------------------
+- Method: POST
+- URL: http://localhost:8080/api/convert
+- Description: Converts an amount from one currency to another based on the provided exchange rates.
+
+- Example Request Body:
+  {
+    "fromCurrency": "USD",
+    "amount": 100.0,
+    "toCurrency": "EUR"
+  }
+
+- Example Response:
+  {
+    "convertedAmount": 92.3500000
+  }
+
+Error Handling Examples:
+========================
+
+1. Validation Error
+-------------------
+- Scenario: Invalid currency code provided in the request body.
+- Example Request Body:
+  {
+    "fromCurrency": "US",
+    "amount": 100.0,
+    "toCurrency": "EUR"
+  }
+
+- Example Response:
+  {
+    "status": 400,
+    "message": "Validation failed",
+    "timestamp": "2024-05-26T00:26:43.9675463",
+    "details": {
+      "fromCurrency": "From currency must be a valid three-letter or three-digit currency code"
+    }
+  }
+
+2. Not Found Error
+------------------
+- Scenario: Exchange rate for the given currency pair is not found.
+- Example Request Body:
+  {
+    "fromCurrency": "USD",
+    "amount": 100.0,
+    "toCurrency": "XYZ"
+  }
+
+- Example Response:
+  {
+      "status": 404,
+      "message": "Exchange rate not found for currency pair: USD to XZY",
+      "timestamp": "2024-05-26T00:27:37.7339648",
+      "details": null
+  }
